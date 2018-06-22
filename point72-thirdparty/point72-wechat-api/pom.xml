@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.point72</groupId>
+		<artifactId>point72-thirdparty</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>point72-wechat-api</artifactId>
+
+	<name>point72-wechat-api</name>
+	<url>http://api.nblow.cn/point72-wechat-pi</url>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.point72</groupId>
+			<artifactId>point72-image</artifactId>
+			<version>${plugin.version}</version>
+		</dependency>
+	</dependencies>
+	<description>微信公众号接口封装</description>
+</project>

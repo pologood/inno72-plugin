@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.point72</groupId>
+		<artifactId>point72-parent</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>point72-plugin</artifactId>
+	<packaging>pom</packaging>
+	<name>point72-plugin</name>
+
+	<description>
+		point72-plugin提供中间件及其他常用的一些功能
+	</description>
+
+
+	<url>http://maven.apache.org</url>
+	<properties>
+		<!-- point72-plugin版本 -->
+		<plugin.version>0.0.1-SNAPSHOT</plugin.version>
+		<!-- point72-frame版本 -->
+		<frame.version>0.0.1-SNAPSHOT</frame.version>
+	</properties>
+
+	<!-- 依赖仓库地址 -->
+	<repositories>
+		<repository>
+			<id>nexus</id>
+			<url>http://maven.nblow.cn/nexus/content/groups/public/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>always</updatePolicy>
+			</snapshots>
+		</repository>
+	</repositories>
+
+	<!-- 插件仓库地址 -->
+	<pluginRepositories>
+		<pluginRepository>
+			<id>nexus</id>
+			<url>http://maven.nblow.cn/nexus/content/groups/public/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</pluginRepository>
+	</pluginRepositories>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+			<version>1.2.6</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.16.16</version>
+		</dependency>
+	</dependencies>
+	<modules>
+		<module>point72-http</module>
+		<module>point72-memcached</module>
+		<module>point72-mq</module>
+		<module>point72-thirdparty</module>
+		<module>point72-redis</module>
+		<module>point72-mongo</module>
+		<module>point72-dubbo</module>
+		<module>point72-alimq</module>
+		<module>point72-oss</module>
+		<module>point72-msg</module>
+		<module>point72-image</module>
+    <module>point72-socket</module>
+  </modules>
+</project>
