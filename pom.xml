@@ -2,24 +2,24 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>com.point72</groupId>
-		<artifactId>point72-parent</artifactId>
+		<groupId>com.inno72</groupId>
+		<artifactId>inno72-parent</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>point72-plugin</artifactId>
+	<artifactId>inno72-plugin</artifactId>
 	<packaging>pom</packaging>
-	<name>point72-plugin</name>
+	<name>inno72-plugin</name>
 
 	<description>
-		point72-plugin提供中间件及其他常用的一些功能
+		inno72-plugin提供中间件及其他常用的一些功能
 	</description>
 
 
 	<url>http://maven.apache.org</url>
 	<properties>
-		<!-- point72-plugin版本 -->
+		<!-- inno72-plugin版本 -->
 		<plugin.version>0.0.1-SNAPSHOT</plugin.version>
-		<!-- point72-frame版本 -->
+		<!-- inno72-frame版本 -->
 		<frame.version>0.0.1-SNAPSHOT</frame.version>
 	</properties>
 
@@ -27,7 +27,7 @@
 	<repositories>
 		<repository>
 			<id>nexus</id>
-			<url>http://maven.nblow.cn/nexus/content/groups/public/</url>
+			<url>http://47.95.217.215:8094/nexus/content/groups/public/</url>
 			<releases>
 				<enabled>true</enabled>
 			</releases>
@@ -42,7 +42,7 @@
 	<pluginRepositories>
 		<pluginRepository>
 			<id>nexus</id>
-			<url>http://maven.nblow.cn/nexus/content/groups/public/</url>
+			<url>http://47.95.217.215:8094/nexus/content/groups/public/</url>
 			<releases>
 				<enabled>true</enabled>
 			</releases>
@@ -66,17 +66,17 @@
 		</dependency>
 	</dependencies>
 	<modules>
-		<module>point72-http</module>
-		<module>point72-memcached</module>
-		<module>point72-mq</module>
-		<module>point72-thirdparty</module>
-		<module>point72-redis</module>
-		<module>point72-mongo</module>
-		<module>point72-dubbo</module>
-		<module>point72-alimq</module>
-		<module>point72-oss</module>
-		<module>point72-msg</module>
-		<module>point72-image</module>
-    <module>point72-socket</module>
+		<module>inno72-http</module>
+		<module>inno72-memcached</module>
+		<module>inno72-mq</module>
+		<module>inno72-thirdparty</module>
+		<module>inno72-redis</module>
+		<module>inno72-mongo</module>
+		<module>inno72-dubbo</module>
+		<module>inno72-alimq</module>
+		<module>inno72-oss</module>
+		<module>inno72-msg</module>
+		<module>inno72-image</module>
+    <module>inno72-socket</module>
   </modules>
 </project>
