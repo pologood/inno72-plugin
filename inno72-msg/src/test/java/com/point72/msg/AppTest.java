@@ -1,4 +1,4 @@
-package com.inno72.msg;
+package com.point72.msg;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

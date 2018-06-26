@@ -1,4 +1,4 @@
-package com.inno72.alimq;
+package com.point72.alimq;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

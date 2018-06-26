@@ -99,7 +99,7 @@ public class GPushUtil {
 
 	/**
 	 * pushTransmissionTemplate by alias
-	 * 
+	 *
 	 * @Create_by:WangShaoPeng
 	 * @Create_date:2017年3月6日
 	 * @param:
@@ -165,7 +165,7 @@ public class GPushUtil {
 
 	/**
 	 * 创建TransmissionTemplate模板
-	 * 
+	 *
 	 * @Create_by:WangShaoPeng
 	 * @Create_date:2017年3月6日
 	 * @param:

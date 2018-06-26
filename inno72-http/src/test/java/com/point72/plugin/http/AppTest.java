@@ -1,4 +1,4 @@
-package com.inno72.plugin.http;
+package com.point72.plugin.http;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

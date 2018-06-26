@@ -1,4 +1,4 @@
-package com.inno72.image;
+package com.point72.image;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
