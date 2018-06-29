@@ -49,7 +49,7 @@ public class OSSUtil {
 		this.$client = client;
 		this.bucketName = prop.getBucketName();
 	}
-
+	
 	/**
 	 * 上传文件
 	 * 
