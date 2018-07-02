@@ -77,6 +77,7 @@
 		<module>inno72-oss</module>
 		<module>inno72-msg</module>
 		<module>inno72-image</module>
+		<module>inno72-shiro</module>
     <module>inno72-socket</module>
   </modules>
 </project>
