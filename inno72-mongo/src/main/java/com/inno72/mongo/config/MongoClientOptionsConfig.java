@@ -31,18 +31,18 @@ public class MongoClientOptionsConfig {
 		logger.info("threadsAllowedToBlockForConnectionMultiplier:{}",
 				option.getThreadsAllowedToBlockForConnectionMultiplier());
 
-		//@formatter:off
+		// @formatter:off
 		return MongoClientOptions.builder()
-		.socketKeepAlive(option.isSocketKeepAlive())
-		.connectTimeout(option.getConnectTimeout())
-		.maxConnectionIdleTime(option.getMaxConnectionIdleTime())
-		.maxConnectionLifeTime(option.getMaxConnectionLifeTime())
-		.maxWaitTime(option.getMaxWaitTime())
-		.socketTimeout(option.getSocketTimeout())
-		.connectionsPerHost(option.getConnectionsPerHost())
-		.threadsAllowedToBlockForConnectionMultiplier(option.getThreadsAllowedToBlockForConnectionMultiplier())
-		.build();
-		//@formatter:on
+				// .socketKeepAlive(option.isSocketKeepAlive())
+				// .connectTimeout(option.getConnectTimeout())
+				// .maxConnectionIdleTime(option.getMaxConnectionIdleTime())
+				// .maxConnectionLifeTime(option.getMaxConnectionLifeTime())
+				// .maxWaitTime(option.getMaxWaitTime())
+				// .socketTimeout(option.getSocketTimeout())
+				// .connectionsPerHost(option.getConnectionsPerHost())
+				// .threadsAllowedToBlockForConnectionMultiplier(option.getThreadsAllowedToBlockForConnectionMultiplier())
+				.build();
+		// @formatter:on
 	}
 
 }
