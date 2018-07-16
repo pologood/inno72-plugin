@@ -12,12 +12,14 @@ import javax.annotation.Resource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.BoundHashOperations;
 import org.springframework.data.redis.core.BoundListOperations;
 import org.springframework.data.redis.core.BoundSetOperations;
 import org.springframework.data.redis.core.BoundValueOperations;
 import org.springframework.data.redis.core.BoundZSetOperations;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -39,6 +41,9 @@ public class IRedisUtil {
 
 	@Resource(name = "redisTemplate")
 	private RedisTemplate<String, Object> template;
+
+	@Autowired
+	private StringRedisTemplate stringRedisTemplate;
 
 	/**
 	 * 返回存储在 key 的列表里指定范围内的元素
@@ -1026,7 +1031,7 @@ public class IRedisUtil {
 	 * @author Houkm 2017年5月14日
 	 */
 	public void publish(String channel, String message) {
-		template.convertAndSend(channel, message);
+		stringRedisTemplate.convertAndSend(channel, message);
 	}
 
 	private BoundListOperations<String, Object> l(String key) {
