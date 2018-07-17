@@ -3,8 +3,6 @@ package com.inno72.log.plugin;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.inno72.log.util.IpPortUtils;
-import com.inno72.log.util.JsonUtil;
-import com.inno72.log.vo.SysLog;
 import org.apache.commons.lang.StringUtils;
 import org.apache.logging.log4j.ThreadContext;
 import org.apache.logging.log4j.core.Layout;

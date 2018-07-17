@@ -8,8 +8,9 @@
 		<artifactId>inno72-plugin</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
+    <packaging>jar</packaging>
 	<artifactId>inno72-log</artifactId>
-	<description></description>
+	<description>inno72统一日志插件</description>
 	<name>inno72-log</name>
 	<url>http://maven.apache.org</url>
 	<dependencies>

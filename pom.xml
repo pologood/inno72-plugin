@@ -73,11 +73,11 @@
 		<module>inno72-redis</module>
 		<module>inno72-mongo</module>
 		<module>inno72-dubbo</module>
-		<module>inno72-alimq</module>
 		<module>inno72-oss</module>
 		<module>inno72-msg</module>
 		<module>inno72-image</module>
 		<module>inno72-shiro</module>
-    <module>inno72-socket</module>
+        <module>inno72-socket</module>
+        <module>inno72-log</module>
   </modules>
 </project>
