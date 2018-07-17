@@ -28,24 +28,6 @@ public class Producer {
 	private MqProperties props;
 
 	/**
-	 * 医生搜索统计
-	 * 
-	 * @param content
-	 */
-	public void asDoctorCountListener(String content) {
-		template.convertAndSend(props.getDoctorCount().getExchange(), props.getDoctorCount().getKey(), content);
-	}
-
-	/**
-	 * 医生问诊统计
-	 * 
-	 * @param map
-	 */
-	public void asSymptomCount(String content) {
-		template.convertAndSend(props.getSymptonCount().getExchange(), props.getSymptonCount().getKey(), content);
-	}
-
-	/**
 	 * 发{@linkplain Msg 消息}
 	 * 
 	 * @param msg
@@ -57,12 +39,12 @@ public class Producer {
 	}
 
 	/**
-	 * 医生日志
+	 * 处理自定义消息
 	 * 
 	 * @param content
 	 */
-	public void logDoctorMsg(String content) {
-		template.convertAndSend(props.getLogDoctor().getExchange(), props.getLogDoctor().getKey(), content);
+	public void processCustomMsg(String content) {
+		template.convertAndSend(props.getCustom().getExchange(), props.getCustom().getKey(), content);
 	}
 
 	/**
