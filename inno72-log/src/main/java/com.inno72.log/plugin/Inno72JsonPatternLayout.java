@@ -64,9 +64,9 @@ public class Inno72JsonPatternLayout extends AbstractStringLayout {
 		String sysLogStr = event.getContextData().getValue("sysLog");
 		ThreadContext.clearMap();
 		if (StringUtils.isNotEmpty(sysLogStr)) {
-			SysLog sysLog = JsonUtil.toObject(sysLogStr, SysLog.class);
-			tag = sysLog.getTag();
-			logType = sysLog.getLogType();
+			// SysLog sysLog = JsonUtil.toObject(sysLogStr, SysLog.class);
+			//tag = sysLog.getTag();
+			//logType = sysLog.getLogType();
 		} else {
 			tag = "";
 			logType = "";
