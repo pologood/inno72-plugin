@@ -1,8 +1,9 @@
 package com.inno72.log.plugin;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.inno72.log.util.FastJsonUtils;
 import com.inno72.log.util.IpPortUtils;
+import com.inno72.log.util.PropertiesUtil;
+import com.inno72.log.vo.*;
 import org.apache.commons.lang.StringUtils;
 import org.apache.logging.log4j.ThreadContext;
 import org.apache.logging.log4j.core.Layout;
@@ -15,26 +16,21 @@ import org.apache.logging.log4j.core.layout.PatternLayout;
 import org.apache.logging.log4j.core.layout.PatternSelector;
 import org.apache.logging.log4j.core.pattern.RegexReplacement;
 
-import javax.management.MalformedObjectNameException;
 import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
  * Inno72 统一日志格式
- * @author gaoxingang
- * @date 2018/7/16
  */
 @Plugin(name = "Inno72JsonPatternLayout", category = Node.CATEGORY, elementType = Layout.ELEMENT_TYPE, printObject = true)
 public class Inno72JsonPatternLayout extends AbstractStringLayout {
-	/** 项目路径 */
 
 	private PatternLayout patternLayout;
 	private String platform = "java";
-	private String appName;
-	private String logType;
-	private String tag;
-	private String instanceName;
+	private String instanceName = IpPortUtils.getIpAddressAndPort();
+	private static String appName = getAppName();
+	// private static String profiles = PropertyUtil.newInstance().getStringProperty("profiles");
 
 
 	private Inno72JsonPatternLayout(Configuration config, RegexReplacement replace, String eventPattern,
@@ -59,28 +55,37 @@ public class Inno72JsonPatternLayout extends AbstractStringLayout {
 		String message = patternLayout.toSerializable(event);
 		String formatTime = format(event.getTimeMillis());
 
-		String sysLogStr = event.getContextData().getValue("sysLog");
+		String sysLogStr = event.getContextData().getValue("logInfo");
 		ThreadContext.clearMap();
+
+		AbstractLog abstractLog = null;
 		if (StringUtils.isNotEmpty(sysLogStr)) {
-			// SysLog sysLog = JsonUtil.toObject(sysLogStr, SysLog.class);
-			//tag = sysLog.getTag();
-			//logType = sysLog.getLogType();
-		} else {
-			tag = "";
-			logType = "";
+			String logType = FastJsonUtils.getString(sysLogStr, "logType");
+
+			if (StringUtils.isNotEmpty(logType)) {
+				if (logType.equals(LogType.SYS.val())) {
+					abstractLog = FastJsonUtils.toObject(sysLogStr, SysLog.class);
+				} else {
+					abstractLog = FastJsonUtils.toObject(sysLogStr, BizLog.class);
+				}
+			}
 		}
 
-		try {
-			instanceName = IpPortUtils.getIpAddressAndPort();
-		} catch (MalformedObjectNameException e) {
-			e.printStackTrace();
-		}
-		//		if (StringUtils.isEmpty(logType)) { // logType 默认为系统日志
-		//			logType = "sys";
-		//		}
+		// System.out.println("profiles " + profiles);
 
-		String jsonStr = new JsonLoggerInfo(platform, appName, instanceName, message, event.getLevel().name(), logType,
-				formatTime, tag).toString();
+		String jsonStr = "";
+		if (abstractLog != null) {
+			if (abstractLog instanceof SysLog) {
+				SysLog sysLog = (SysLog) abstractLog;
+				jsonStr = new JsonSysLoggerInfo(sysLog.getLogType(), platform, appName, instanceName,
+						event.getLevel().name(), formatTime, sysLog.getTag(), message).toString();
+			} else if (abstractLog instanceof BizLog) {
+				BizLog bizLog = (BizLog) abstractLog;
+				jsonStr = new JsonBizLoggerInfo(bizLog.getLogType(), platform, appName, instanceName,
+						event.getLevel().name(), formatTime, bizLog.getTag(), abstractLog.getDetail(),
+						bizLog.getUserId(), bizLog.getOperatorId(), bizLog.getActivityId()).toString();
+			}
+		}
 		return jsonStr + "\n";
 	}
 
@@ -101,90 +106,6 @@ public class Inno72JsonPatternLayout extends AbstractStringLayout {
 				noConsoleNoAnsi, headerPattern, footerPattern, appName);
 	}
 
-	/**
-	 * 输出的日志内容
-	 */
-	public static class JsonLoggerInfo {
-		/** 平台 */
-		private String platform;
-		/** 实例名称 */
-		private String instanceName;
-		/** 项目名 */
-		private String appName;
-		/** 日志信息 */
-		private String detail;
-		/** 日志级别 */
-		private String level;
-		/** 日志分类 */
-		private String logType;
-		/** 日志时间 */
-		private String time;
-		/** 标签 */
-		private String tag;
-
-		public JsonLoggerInfo(String platform, String appName, String instanceName, String detail, String level,
-				String logType, String time, String tag) {
-			this.platform = platform;
-			this.appName = appName;
-			this.instanceName = instanceName;
-			this.detail = detail;
-			this.level = level;
-			this.logType = logType;
-			this.time = time;
-			this.tag = tag;
-		}
-
-		public String getAppName() {
-			return appName;
-		}
-
-		public String getLevel() {
-			return level;
-		}
-
-		public String getLogType() {
-			return logType;
-		}
-
-		public String getTime() {
-			return time;
-		}
-
-		public String getDetail() {
-			return detail;
-		}
-
-		public String getPlatform() {
-			return platform;
-		}
-
-		public String getInstanceName() {
-			return instanceName;
-		}
-
-		public String getTag() {
-			return tag;
-		}
-
-		@Override
-		public String toString() {
-			try {
-				return new ObjectMapper().writeValueAsString(this);
-			} catch (JsonProcessingException e) {
-				e.printStackTrace();
-			}
-			return null;
-		}
-	}
-
-
-	/**
-	 * 使用参数Format格式化Date成字符串
-	 *
-	 * @param time 毫秒
-	 * @return
-	 *
-	 */
 	public static String format(Long time) {
 		Date date = new Date();
 		date.setTime(time);
@@ -194,5 +115,14 @@ public class Inno72JsonPatternLayout extends AbstractStringLayout {
 			returnValue = df.format(date);
 		}
 		return returnValue;
+	}
+
+	public static String getAppName() {
+		String logAppName = new PropertiesUtil("application.properties").readProperty("inno72.log.appname");
+		if (StringUtils.isNotEmpty(logAppName)) {
+			return logAppName;
+		}
+		String applicationName = new PropertiesUtil("bootstrap.properties").readProperty("spring.application.name");
+		return applicationName;
 	}
 }

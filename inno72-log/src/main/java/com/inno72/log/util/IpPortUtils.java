@@ -18,14 +18,23 @@ public class IpPortUtils {
 	/**
 	 * 获取当前服务器IP地址 + 端口号
 	 */
-	public static String getIpAddressAndPort() throws MalformedObjectNameException, NullPointerException {
-		MBeanServer beanServer = ManagementFactory.getPlatformMBeanServer();
-		Set<ObjectName> objectNames = beanServer.queryNames(new ObjectName("*:type=Connector,*"),
-				Query.match(Query.attr("protocol"), Query.value("HTTP/1.1")));
-		String host = getInternetIp();
-		String port = null;
-		if (!CollectionUtils.isEmpty(objectNames)) {
-			port = objectNames.iterator().next().getKeyProperty("port");
+	public static String getIpAddressAndPort() {
+		String host = "";
+		String port = "";
+		try {
+			MBeanServer beanServer = ManagementFactory.getPlatformMBeanServer();
+			Set<ObjectName> objectNames = null;
+
+			objectNames = beanServer.queryNames(new ObjectName("*:type=Connector,*"),
+					Query.match(Query.attr("protocol"), Query.value("HTTP/1.1")));
+
+			host = getInternetIp();
+			port = null;
+			if (!CollectionUtils.isEmpty(objectNames)) {
+				port = objectNames.iterator().next().getKeyProperty("port");
+			}
+		} catch (MalformedObjectNameException e) {
+			e.printStackTrace();
 		}
 		return host + ":" + port;
 	}
@@ -53,10 +62,8 @@ public class IpPortUtils {
 				address = networks.nextElement().getInetAddresses();
 				while (address.hasMoreElements()) {
 					ip = address.nextElement();
-					if (ip != null
-							&& ip instanceof Inet4Address
-							&& ip.isSiteLocalAddress()
-							&& !ip.getHostAddress().equals("getInternetIp()")) {
+					if (ip != null && ip instanceof Inet4Address && ip.isSiteLocalAddress() && !ip.getHostAddress()
+							.equals("getInternetIp()")) {
 						return ip.getHostAddress();
 					}
 				}
