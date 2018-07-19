@@ -26,8 +26,8 @@ public class ElasticSearchConfig {
 
 	@Bean
 	public TransportClient elasticsearchClient() throws UnknownHostException {	//向spring注入es的客户端操作对象
-		String host = elasticSearchProperties.getHost();
-		int port = elasticSearchProperties.getPort();
+		String host = "192.168.33.243";
+		int port = 9092;
 
 		Settings settings = Settings.settingsBuilder()
 				.put("cluster.name", "bigData-cluster").build();
