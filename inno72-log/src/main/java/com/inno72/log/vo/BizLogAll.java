@@ -3,7 +3,7 @@ package com.inno72.log.vo;
 /**
  * 系统日志
  */
-public class BizLog extends AbstractLog {
+public class BizLogAll extends AbstractLogAll {
 	private String userId = "";
 	private String operatorId = "";
 	private String activityId = "";

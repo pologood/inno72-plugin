@@ -21,17 +21,17 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * Inno72 统一日志格式
+ * Inno72 统一日志格式,所有日志手动采集
  */
 @Plugin(name = "Inno72JsonPatternLayout", category = Node.CATEGORY, elementType = Layout.ELEMENT_TYPE, printObject = true)
-public class Inno72JsonPatternLayout extends AbstractStringLayout {
+public class Inno72JsonAllPatternLayout extends AbstractStringLayout {
 
 	private PatternLayout patternLayout;
 	private String platform = "java";
 	private String instanceName = IpPortUtils.getIpAddressAndPort();
 	private static String appName = getAppName();
 
-	private Inno72JsonPatternLayout(Configuration config, RegexReplacement replace, String eventPattern,
+	private Inno72JsonAllPatternLayout(Configuration config, RegexReplacement replace, String eventPattern,
 			PatternSelector patternSelector, Charset charset, boolean alwaysWriteExceptions, boolean noConsoleNoAnsi,
 			String headerPattern, String footerPattern, String appName) {
 		super(config, charset, PatternLayout
@@ -56,29 +56,29 @@ public class Inno72JsonPatternLayout extends AbstractStringLayout {
 		String sysLogStr = event.getContextData().getValue("logInfo");
 		ThreadContext.clearMap();
 
-		AbstractLog abstractLog = null;
+		AbstractLogAll abstractLog = null;
 		if (StringUtils.isNotEmpty(sysLogStr)) {
 			String logType = FastJsonUtils.getString(sysLogStr, "logType");
 
 			if (StringUtils.isNotEmpty(logType)) {
 				if (logType.equals(LogType.SYS.val())) {
-					abstractLog = FastJsonUtils.toObject(sysLogStr, SysLog.class);
+					abstractLog = FastJsonUtils.toObject(sysLogStr, SysLogAll.class);
 				} else {
-					abstractLog = FastJsonUtils.toObject(sysLogStr, BizLog.class);
+					abstractLog = FastJsonUtils.toObject(sysLogStr, BizLogAll.class);
 				}
 			}
 		}
 
 		String jsonStr = "";
 		if (abstractLog != null) {
-			if (abstractLog instanceof SysLog) {
-				SysLog sysLog = (SysLog) abstractLog;
-				jsonStr = new JsonSysLoggerInfo(sysLog.getLogType(), platform, appName, instanceName,
-						event.getLevel().name(), formatTime, sysLog.getTag(), message).toString();
-			} else if (abstractLog instanceof BizLog) {
-				BizLog bizLog = (BizLog) abstractLog;
-				jsonStr = new JsonBizLoggerInfo(bizLog.getLogType(), platform, appName, instanceName,
-						event.getLevel().name(), formatTime, bizLog.getTag(), abstractLog.getDetail(),
+			if (abstractLog instanceof SysLogAll) {
+				SysLogAll sysLog = (SysLogAll) abstractLog;
+				jsonStr = new JsonSysLoggerInfo(sysLog.getLogType(), sysLog.getPlatform(), sysLog.getAppName(), sysLog.getInstanceName(),
+						sysLog.getLevel(), sysLog.getTime(), sysLog.getTag(), sysLog.getDetail()).toString();
+			} else if (abstractLog instanceof BizLogAll) {
+				BizLogAll bizLog = (BizLogAll) abstractLog;
+				jsonStr = new JsonBizLoggerInfo(bizLog.getLogType(), bizLog.getPlatform(), bizLog.getAppName(), bizLog.getInstanceName(),
+						bizLog.getLevel(), bizLog.getTime(), bizLog.getTag(), abstractLog.getDetail(),
 						bizLog.getUserId(), bizLog.getOperatorId(), bizLog.getActivityId()).toString();
 			}
 		}
@@ -86,7 +86,7 @@ public class Inno72JsonPatternLayout extends AbstractStringLayout {
 	}
 
 	@PluginFactory
-	public static Inno72JsonPatternLayout createLayout(
+	public static Inno72JsonAllPatternLayout createLayout(
 			@PluginAttribute(value = "pattern", defaultString = PatternLayout.DEFAULT_CONVERSION_PATTERN) final String pattern,
 			@PluginElement("PatternSelector") final PatternSelector patternSelector,
 			@PluginConfiguration final Configuration config, @PluginElement("Replace") final RegexReplacement replace,
@@ -98,7 +98,7 @@ public class Inno72JsonPatternLayout extends AbstractStringLayout {
 			@PluginAttribute("footer") final String footerPattern, @PluginAttribute("appName") final String appName) {
 
 
-		return new Inno72JsonPatternLayout(config, replace, pattern, patternSelector, charset, alwaysWriteExceptions,
+		return new Inno72JsonAllPatternLayout(config, replace, pattern, patternSelector, charset, alwaysWriteExceptions,
 				noConsoleNoAnsi, headerPattern, footerPattern, appName);
 	}
 
