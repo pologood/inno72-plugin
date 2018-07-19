@@ -70,7 +70,6 @@
 		<module>inno72-http</module>
 		<module>inno72-memcached</module>
 		<module>inno72-mq</module>
-		<module>inno72-thirdparty</module>
 		<module>inno72-redis</module>
 		<module>inno72-mongo</module>
 		<module>inno72-dubbo</module>
