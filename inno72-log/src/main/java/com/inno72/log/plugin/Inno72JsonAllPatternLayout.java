@@ -23,7 +23,7 @@ import java.util.Date;
 /**
  * Inno72 统一日志格式,所有日志手动采集
  */
-@Plugin(name = "Inno72JsonPatternLayout", category = Node.CATEGORY, elementType = Layout.ELEMENT_TYPE, printObject = true)
+@Plugin(name = "Inno72JsonAllPatternLayout", category = Node.CATEGORY, elementType = Layout.ELEMENT_TYPE, printObject = true)
 public class Inno72JsonAllPatternLayout extends AbstractStringLayout {
 
 	private PatternLayout patternLayout;
