@@ -82,7 +82,7 @@ public class Inno72JsonAllPatternLayout extends AbstractStringLayout {
 						bizLog.getUserId(), bizLog.getOperatorId(), bizLog.getActivityId()).toString();
 			}
 		}
-		return jsonStr;
+		return jsonStr + "\n";
 	}
 
 	@PluginFactory
