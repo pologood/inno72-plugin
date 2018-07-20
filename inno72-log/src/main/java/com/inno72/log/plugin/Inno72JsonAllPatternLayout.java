@@ -31,16 +31,15 @@ public class Inno72JsonAllPatternLayout extends AbstractStringLayout {
 	private String instanceName = IpPortUtils.getIpAddressAndPort();
 	private static String appName = getAppName();
 
-	private Inno72JsonAllPatternLayout(Configuration config, RegexReplacement replace, String eventPattern,
+	public Inno72JsonAllPatternLayout(Configuration config, RegexReplacement replace, String eventPattern,
 			PatternSelector patternSelector, Charset charset, boolean alwaysWriteExceptions, boolean noConsoleNoAnsi,
-			String headerPattern, String footerPattern, String appName) {
+			String headerPattern, String footerPattern) {
 		super(config, charset, PatternLayout
 				.createSerializer(config, replace, headerPattern, null, patternSelector, alwaysWriteExceptions,
 						noConsoleNoAnsi), PatternLayout
 				.createSerializer(config, replace, footerPattern, null, patternSelector, alwaysWriteExceptions,
 						noConsoleNoAnsi));
 
-		this.appName = appName;
 		this.patternLayout = PatternLayout.newBuilder().withPattern(eventPattern).withPatternSelector(patternSelector)
 				.withConfiguration(config).withRegexReplacement(replace).withCharset(charset)
 				.withAlwaysWriteExceptions(alwaysWriteExceptions).withNoConsoleNoAnsi(noConsoleNoAnsi)
@@ -95,11 +94,11 @@ public class Inno72JsonAllPatternLayout extends AbstractStringLayout {
 			@PluginAttribute(value = "alwaysWriteExceptions", defaultBoolean = true) final boolean alwaysWriteExceptions,
 			@PluginAttribute(value = "noConsoleNoAnsi", defaultBoolean = false) final boolean noConsoleNoAnsi,
 			@PluginAttribute("header") final String headerPattern,
-			@PluginAttribute("footer") final String footerPattern, @PluginAttribute("appName") final String appName) {
+			@PluginAttribute("footer") final String footerPattern) {
 
 
 		return new Inno72JsonAllPatternLayout(config, replace, pattern, patternSelector, charset, alwaysWriteExceptions,
-				noConsoleNoAnsi, headerPattern, footerPattern, appName);
+				noConsoleNoAnsi, headerPattern, footerPattern);
 	}
 
 	public static String format(Long time) {

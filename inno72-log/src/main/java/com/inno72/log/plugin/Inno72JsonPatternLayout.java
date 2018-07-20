@@ -31,16 +31,15 @@ public class Inno72JsonPatternLayout extends AbstractStringLayout {
 	private String instanceName = IpPortUtils.getIpAddressAndPort();
 	private static String appName = getAppName();
 
-	private Inno72JsonPatternLayout(Configuration config, RegexReplacement replace, String eventPattern,
+	public Inno72JsonPatternLayout(Configuration config, RegexReplacement replace, String eventPattern,
 			PatternSelector patternSelector, Charset charset, boolean alwaysWriteExceptions, boolean noConsoleNoAnsi,
-			String headerPattern, String footerPattern, String appName) {
+			String headerPattern, String footerPattern) {
 		super(config, charset, PatternLayout
 				.createSerializer(config, replace, headerPattern, null, patternSelector, alwaysWriteExceptions,
 						noConsoleNoAnsi), PatternLayout
 				.createSerializer(config, replace, footerPattern, null, patternSelector, alwaysWriteExceptions,
 						noConsoleNoAnsi));
 
-		this.appName = appName;
 		this.patternLayout = PatternLayout.newBuilder().withPattern(eventPattern).withPatternSelector(patternSelector)
 				.withConfiguration(config).withRegexReplacement(replace).withCharset(charset)
 				.withAlwaysWriteExceptions(alwaysWriteExceptions).withNoConsoleNoAnsi(noConsoleNoAnsi)
@@ -52,6 +51,13 @@ public class Inno72JsonPatternLayout extends AbstractStringLayout {
 		//在这里处理日志内容
 		String message = patternLayout.toSerializable(event);
 		String formatTime = format(event.getTimeMillis());
+
+		// 判断sql insert update delete todo gxg
+		if (StringUtils.isNotEmpty(message) && message.indexOf("BaseJdbcLogger") > -1) {
+			String jsonStr = new JsonSysLoggerInfo(LogType.SYS.val(), platform, appName, instanceName,
+					event.getLevel().name(), formatTime, "", message).toString();
+			return jsonStr + "\n";
+		}
 
 		String sysLogStr = event.getContextData().getValue("logInfo");
 		ThreadContext.clearMap();
@@ -99,7 +105,7 @@ public class Inno72JsonPatternLayout extends AbstractStringLayout {
 
 
 		return new Inno72JsonPatternLayout(config, replace, pattern, patternSelector, charset, alwaysWriteExceptions,
-				noConsoleNoAnsi, headerPattern, footerPattern, appName);
+				noConsoleNoAnsi, headerPattern, footerPattern);
 	}
 
 	public static String format(Long time) {
