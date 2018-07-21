@@ -15,6 +15,7 @@ import org.apache.logging.log4j.core.layout.AbstractStringLayout;
 import org.apache.logging.log4j.core.layout.PatternLayout;
 import org.apache.logging.log4j.core.layout.PatternSelector;
 import org.apache.logging.log4j.core.pattern.RegexReplacement;
+import org.apache.logging.log4j.message.Message;
 
 import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
@@ -52,15 +53,18 @@ public class Inno72JsonPatternLayout extends AbstractStringLayout {
 		String message = patternLayout.toSerializable(event);
 		String formatTime = format(event.getTimeMillis());
 
-		// 判断sql insert update delete todo gxg
-		if (StringUtils.isNotEmpty(message) && message.indexOf("BaseJdbcLogger") > -1) {
-			String jsonStr = new JsonSysLoggerInfo(LogType.SYS.val(), platform, appName, instanceName,
-					event.getLevel().name(), formatTime, "", message).toString();
-			return jsonStr + "\n";
-		}
-
 		String sysLogStr = event.getContextData().getValue("logInfo");
 		ThreadContext.clearMap();
+
+		// 过滤select操作
+		if (StringUtils.isNotEmpty(message)) {
+			if ((message.indexOf("executed") > -1 && message.indexOf("LAST_INSERT_ID") == -1
+					&& message.indexOf("SELECT") == -1) || (message.indexOf("<==    Updates") > -1)) {
+				String jsonStr = new JsonSysLoggerInfo(LogType.SYS.val(), platform, appName, instanceName,
+						event.getLevel().name(), formatTime, "", message).toString();
+				return jsonStr + "\n";
+			}
+		}
 
 		AbstractLog abstractLog = null;
 		if (StringUtils.isNotEmpty(sysLogStr)) {
@@ -87,6 +91,11 @@ public class Inno72JsonPatternLayout extends AbstractStringLayout {
 						event.getLevel().name(), formatTime, bizLog.getTag(), abstractLog.getDetail(),
 						bizLog.getUserId(), bizLog.getOperatorId(), bizLog.getActivityId()).toString();
 			}
+		} else {
+			// 没有 LogContext 设置的当做系统级日志处理
+			jsonStr = new JsonSysLoggerInfo(LogType.SYS.val(), platform, appName, instanceName,
+					event.getLevel().name(), formatTime, "", message).toString();
+			return jsonStr + "\n";
 		}
 		return jsonStr + "\n";
 	}
