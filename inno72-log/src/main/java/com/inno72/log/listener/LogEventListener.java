@@ -19,6 +19,8 @@ public class LogEventListener implements ApplicationListener<ContextRefreshedEve
 
 	@Value("${inno72.log.props.channelCapacity}")
 	String channelCapacity;
+	@Value("${inno72.log.props.channelTransactionCapacity}")
+	String channelTransactionCapacity;
 	@Value("${inno72.log.props.agent}")
 	String agent;
 	@Value("${inno72.log.props.hostname}")
@@ -45,6 +47,7 @@ public class LogEventListener implements ApplicationListener<ContextRefreshedEve
 						null, true, false, null, null);
 				Property[] properties = {Property.createProperty("channel.type", "memory"),
 						Property.createProperty("channel.capacity", channelCapacity),
+						Property.createProperty("channel.transactionCapacity", channelTransactionCapacity),
 						Property.createProperty("sinks", agent),
 						Property.createProperty(agent + ".type", "avro"),
 						Property.createProperty(agent + ".hostname", hostname),

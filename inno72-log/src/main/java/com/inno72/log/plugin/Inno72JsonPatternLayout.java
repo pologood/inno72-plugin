@@ -15,7 +15,6 @@ import org.apache.logging.log4j.core.layout.AbstractStringLayout;
 import org.apache.logging.log4j.core.layout.PatternLayout;
 import org.apache.logging.log4j.core.layout.PatternSelector;
 import org.apache.logging.log4j.core.pattern.RegexReplacement;
-import org.apache.logging.log4j.message.Message;
 
 import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
