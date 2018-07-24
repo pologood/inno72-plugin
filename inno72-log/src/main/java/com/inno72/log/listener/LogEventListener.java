@@ -65,9 +65,11 @@ public class LogEventListener implements ApplicationListener<ContextRefreshedEve
 
 				Property[] properties = {Property.createProperty("channel.type", "memory"),
 						Property.createProperty("channel.capacity", channelCapacity),
-						Property.createProperty("sinks", agent), Property.createProperty(agent + ".type", "avro"),
+						Property.createProperty("channel.transactionCapacity", channelTransactionCapacity),
+						Property.createProperty("sinks", agent),
+						Property.createProperty(agent + ".type", "avro"),
 						Property.createProperty(agent + ".hostname", hostname),
-						Property.createProperty(agent + "port", port),
+						Property.createProperty(agent + ".port", port),
 						Property.createProperty(agent + ".batch-size", batchSize),
 						Property.createProperty("processor.type", "failover")};
 
