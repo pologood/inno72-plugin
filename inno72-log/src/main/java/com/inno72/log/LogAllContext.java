@@ -65,7 +65,7 @@ public class LogAllContext {
 	public LogAllContext operatorId(String operatorId) {
 		if (abstractLogAll instanceof BizLogAll) {
 			BizLogAll bizLog = (BizLogAll) abstractLogAll;
-			bizLog.setUserId(operatorId);
+			bizLog.setOperatorId(operatorId);
 		}
 		return this;
 	}
@@ -73,7 +73,7 @@ public class LogAllContext {
 	public LogAllContext activityId(String activityId) {
 		if (abstractLogAll instanceof BizLogAll) {
 			BizLogAll bizLog = (BizLogAll) abstractLogAll;
-			bizLog.setUserId(activityId);
+			bizLog.setActivityId(activityId);
 		}
 		return this;
 	}
