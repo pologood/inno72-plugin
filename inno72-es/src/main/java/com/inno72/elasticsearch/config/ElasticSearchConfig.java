@@ -33,7 +33,7 @@ public class ElasticSearchConfig {
 
 		Settings settings = Settings.settingsBuilder()
 				.put("cluster.name", "bigData-cluster")
-				.put("cluster.node", "node-1").build();
+				.put("node.name", "node-1").build();
 
 		return TransportClient
 					.builder()
