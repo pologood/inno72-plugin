@@ -5,6 +5,7 @@ import com.inno72.log.plugin.Inno72JsonPatternLayout;
 import org.apache.commons.lang.StringUtils;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.Appender;
 import org.apache.logging.log4j.core.Logger;
 import org.apache.logging.log4j.core.config.Configuration;
 import org.apache.logging.log4j.core.config.Property;
@@ -13,6 +14,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Service;
+
+import java.util.Map;
 
 @Service
 public class LogEventListener implements ApplicationListener<ContextRefreshedEvent> {
@@ -77,6 +80,14 @@ public class LogEventListener implements ApplicationListener<ContextRefreshedEve
 						.createAppender(null, properties, null, "false", "Embedded", null, "1000", "1000", "1", "1000",
 								"FlumeAppender", null, null, null, null, null, null, "false", "100", null, null,
 								inno72JsonPatternLayout, null);
+
+			}
+
+			avroAppender.start();
+
+			Map<String, Appender> appenders = avroLogger.getAppenders();
+			for (String s : appenders.keySet()) {
+				avroLogger.addAppender(appenders.get(s));
 			}
 
 			avroLogger.addAppender(avroAppender);
