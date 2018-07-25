@@ -29,7 +29,7 @@ public class ElasticSearchConfig {
 		// Todo 增加到config里面
 //		String host = "192.168.33.243";
 		String host = "192.168.33.6";
-		int port = 9092;
+		int port = 9300;
 
 		Settings settings = Settings.settingsBuilder()
 				.put("cluster.name", "bigData-cluster")
