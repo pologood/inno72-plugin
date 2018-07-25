@@ -26,7 +26,9 @@ public class ElasticSearchConfig {
 
 	@Bean
 	public TransportClient elasticsearchClient() throws UnknownHostException {	//向spring注入es的客户端操作对象
-		String host = "192.168.33.243";
+		// Todo 增加到config里面
+//		String host = "192.168.33.243";
+		String host = "192.168.33.6";
 		int port = 9092;
 
 		Settings settings = Settings.settingsBuilder()
