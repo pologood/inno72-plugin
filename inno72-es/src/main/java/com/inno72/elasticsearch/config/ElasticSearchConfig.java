@@ -32,7 +32,8 @@ public class ElasticSearchConfig {
 		int port = 9092;
 
 		Settings settings = Settings.settingsBuilder()
-				.put("cluster.name", "bigData-cluster").build();
+				.put("cluster.name", "bigData-cluster")
+				.put("cluster.node", "node-1").build();
 
 		return TransportClient
 					.builder()
