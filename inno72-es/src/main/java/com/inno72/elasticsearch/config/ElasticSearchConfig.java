@@ -2,6 +2,8 @@ package com.inno72.elasticsearch.config;
 
 
 import org.elasticsearch.client.transport.TransportClient;
+import org.elasticsearch.common.logging.ESLoggerFactory;
+import org.elasticsearch.common.logging.slf4j.Slf4jESLoggerFactory;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.slf4j.Logger;
@@ -26,19 +28,24 @@ public class ElasticSearchConfig {
 
 	@Bean
 	public TransportClient elasticsearchClient() throws UnknownHostException {	//向spring注入es的客户端操作对象
-		String host = "192.168.33.243";
-		int port = 9092;
 
+		String host = elasticSearchProperties.getHost();
+		int port = elasticSearchProperties.getPort();
+		
+		LOGGER.info("初始化ES host =>{}; port =>{}", host, port);
+
+		ESLoggerFactory.setDefaultFactory(new Slf4jESLoggerFactory());
 		Settings settings = Settings.settingsBuilder()
-				.put("cluster.name", "bigData-cluster").build();
+				.put("cluster.name", "my-application").build();
 
+		
 		return TransportClient
-					.builder()
-					.settings(settings)
-					.build()
-					.addTransportAddress(
-							new InetSocketTransportAddress(InetAddress.getByName(host), port)
-					);
+				.builder()
+				.settings(settings)
+				.build()
+				.addTransportAddress(
+						new InetSocketTransportAddress(InetAddress.getByName(host), port)
+				);
 
 	}
 
