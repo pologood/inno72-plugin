@@ -37,7 +37,6 @@ public class ElasticSearchConfig {
 		ESLoggerFactory.setDefaultFactory(new Slf4jESLoggerFactory());
 		Settings settings = Settings.settingsBuilder()
 				.put("cluster.name", "my-application").build();
-
 		
 		return TransportClient
 				.builder()
