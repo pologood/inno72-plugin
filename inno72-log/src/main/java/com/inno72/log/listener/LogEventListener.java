@@ -45,19 +45,19 @@ public class LogEventListener implements ApplicationListener<ContextRefreshedEve
 
 			FlumeAppender avroAppender = null;
 
+			Property[] properties = {Property.createProperty("channel.type", "memory"),
+					Property.createProperty("channel.capacity", channelCapacity),
+					Property.createProperty("channel.transactionCapacity", channelTransactionCapacity),
+					Property.createProperty("sinks", agent),
+					Property.createProperty(agent + ".type", "avro"),
+					Property.createProperty(agent + ".hostname", hostname),
+					Property.createProperty(agent + ".port", port),
+					Property.createProperty(agent + ".batch-size", batchSize),
+					Property.createProperty("processor.type", "failover")};
+
 			if (StringUtils.isNotEmpty(layout) && layout.equals("Inno72JsonPatternLayout")) {
 				Inno72JsonPatternLayout inno72JsonPatternLayout = new Inno72JsonPatternLayout(config, null, null, null,
 						null, true, false, null, null);
-				Property[] properties = {Property.createProperty("channel.type", "memory"),
-						Property.createProperty("channel.capacity", channelCapacity),
-						Property.createProperty("channel.transactionCapacity", channelTransactionCapacity),
-						Property.createProperty("sinks", agent),
-						Property.createProperty(agent + ".type", "avro"),
-						Property.createProperty(agent + ".hostname", hostname),
-						Property.createProperty(agent + ".port", port),
-						Property.createProperty(agent + ".batch-size", batchSize),
-						Property.createProperty("processor.type", "failover")};
-
 				avroAppender = FlumeAppender
 						.createAppender(null, properties, null, "false", "Embedded", null, "1000", "1000", "1", "1000",
 								"FlumeAppender", null, null, null, null, null, null, "false", "100", null, null,
@@ -65,22 +65,10 @@ public class LogEventListener implements ApplicationListener<ContextRefreshedEve
 			} else if (StringUtils.isNotEmpty(layout) && layout.equals("Inno72JsonAllPatternLayout")) {
 				Inno72JsonAllPatternLayout inno72JsonPatternLayout = new Inno72JsonAllPatternLayout(config, null, null,
 						null, null, true, false, null, null);
-
-				Property[] properties = {Property.createProperty("channel.type", "memory"),
-						Property.createProperty("channel.capacity", channelCapacity),
-						Property.createProperty("channel.transactionCapacity", channelTransactionCapacity),
-						Property.createProperty("sinks", agent),
-						Property.createProperty(agent + ".type", "avro"),
-						Property.createProperty(agent + ".hostname", hostname),
-						Property.createProperty(agent + ".port", port),
-						Property.createProperty(agent + ".batch-size", batchSize),
-						Property.createProperty("processor.type", "failover")};
-
 				avroAppender = FlumeAppender
 						.createAppender(null, properties, null, "false", "Embedded", null, "1000", "1000", "1", "1000",
 								"FlumeAppender", null, null, null, null, null, null, "false", "100", null, null,
 								inno72JsonPatternLayout, null);
-
 			}
 
 			avroAppender.start();
