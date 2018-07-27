@@ -55,8 +55,11 @@ public class Inno72JsonPatternLayout extends AbstractStringLayout {
 		String sysLogStr = event.getContextData().getValue("logInfo");
 		ThreadContext.clearMap();
 
-		// 过滤select操作
 		if (StringUtils.isNotEmpty(message)) {
+			// 所有select 操作都不做处理
+			if (message.indexOf("SELECT") > -1 || message.indexOf("select") > -1) {
+				return "";
+			}
 			if ((message.indexOf("executed") > -1 && message.indexOf("LAST_INSERT_ID") == -1
 					&& message.indexOf("SELECT") == -1) || (message.indexOf("<==    Updates") > -1)) {
 				String jsonStr = new JsonSysLoggerInfo(LogType.SYS.val(), platform, appName, instanceName,
