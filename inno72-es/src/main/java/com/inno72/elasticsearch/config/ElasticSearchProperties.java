@@ -7,6 +7,8 @@ public class ElasticSearchProperties {
 
 	private String host;
 	private int port;
+	private String cluster;
+	private String node;
 
 	public String getHost() {
 		return host;
@@ -22,5 +24,21 @@ public class ElasticSearchProperties {
 
 	public void setPort(int port) {
 		this.port = port;
+	}
+
+	public String getCluster() {
+		return cluster;
+	}
+
+	public void setCluster(String cluster) {
+		this.cluster = cluster;
+	}
+
+	public String getNode() {
+		return node;
+	}
+
+	public void setNode(String node) {
+		this.node = node;
 	}
 }

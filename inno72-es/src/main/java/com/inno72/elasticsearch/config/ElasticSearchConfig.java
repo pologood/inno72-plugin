@@ -31,12 +31,15 @@ public class ElasticSearchConfig {
 
 		String host = elasticSearchProperties.getHost();
 		int port = elasticSearchProperties.getPort();
-		
-		LOGGER.info("初始化ES host =>{}; port =>{}", host, port);
+		String cluster = elasticSearchProperties.getCluster();
+		String node = elasticSearchProperties.getNode();
+
+		LOGGER.info("初始化ES host =>{}; port =>{}; cluster => {}; node => {}", host, port, cluster, node);
 
 		ESLoggerFactory.setDefaultFactory(new Slf4jESLoggerFactory());
 		Settings settings = Settings.settingsBuilder()
-				.put("cluster.name", "my-application").build();
+				.put("cluster.name", cluster)
+				.put("cluster.node", node).build();
 		
 		return TransportClient
 				.builder()
