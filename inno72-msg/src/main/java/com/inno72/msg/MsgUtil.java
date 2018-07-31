@@ -161,6 +161,22 @@ public class MsgUtil {
 	}
 
 	/**
+	 * 发送消息给 企业微信
+	 * 
+	 * @param code
+	 *            消息模板key
+	 * @param params
+	 *            文本内容中的参数值，
+	 * @param appName
+	 *            调用方格式：（应用.实例.类.方法）
+	 * @author zhangwenjie 2018年7月31日
+	 */
+	public void sendQyWechatMsg(String code, Map<String, String> params, String appName) {
+		params = params == null ? new HashMap<>() : params;
+		send(generateMsg(code, params, null, appName, null));
+	}
+
+	/**
 	 * 发送熊掌号文本消息给用户
 	 * 
 	 * @param code
