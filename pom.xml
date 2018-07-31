@@ -79,5 +79,6 @@
 		<module>inno72-shiro</module>
         <module>inno72-socket</module>
         <module>inno72-log</module>
+        <module>inno72-aop</module>
   </modules>
 </project>
