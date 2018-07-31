@@ -171,9 +171,9 @@ public class MsgUtil {
 	 *            调用方格式：（应用.实例.类.方法）
 	 * @author zhangwenjie 2018年7月31日
 	 */
-	public void sendQyWechatMsg(String code, Map<String, String> params, String appName) {
+	public void sendQyWechatMsg(String code, Map<String, String> params, String touser, String appName) {
 		params = params == null ? new HashMap<>() : params;
-		send(generateMsg(code, params, null, appName, null));
+		send(generateMsg(code, params, touser, appName, null));
 	}
 
 	/**
