@@ -55,7 +55,7 @@ public class MsgUtil {
 	 */
 	public void sendSMS(String code, Map<String, String> params, String receiver, String appName) {
 		params = params == null ? new HashMap<>() : params;
-		send(generateMsg(code, params, receiver, appName, null));
+		send(generateMsg(code, params, null, receiver, appName, null));
 	}
 
 	/**
@@ -82,7 +82,7 @@ public class MsgUtil {
 		params = params == null ? new HashMap<>() : params;
 		params.put("title", title);
 		params.put("text", content);
-		send(generateMsg(code, params, alias, appName, null));
+		send(generateMsg(code, params, null, alias, appName, null));
 	}
 
 	/**
@@ -102,7 +102,7 @@ public class MsgUtil {
 	 */
 	public void sendWechatText(String code, Map<String, String> params, String openid, String appName) {
 		params = params == null ? new HashMap<>() : params;
-		send(generateMsg(code, params, openid, appName, null));
+		send(generateMsg(code, params, null, openid, appName, null));
 	}
 
 	/**
@@ -157,7 +157,7 @@ public class MsgUtil {
 		params.put("first", firstContent);
 		params.put("remark", remarkContent);
 		params.put("url", url);
-		send(generateMsg(code, params, openid, appName, null));
+		send(generateMsg(code, params, null, openid, appName, null));
 	}
 
 	/**
@@ -171,9 +171,10 @@ public class MsgUtil {
 	 *            调用方格式：（应用.实例.类.方法）
 	 * @author zhangwenjie 2018年7月31日
 	 */
-	public void sendQyWechatMsg(String code, Map<String, String> params, String touser, String appName) {
+	public void sendQyWechatMsg(String code, Map<String, String> params, Map<String, String> addedParams, String touser,
+			String appName) {
 		params = params == null ? new HashMap<>() : params;
-		send(generateMsg(code, params, touser, appName, null));
+		send(generateMsg(code, params, addedParams, touser, appName, null));
 	}
 
 	/**
@@ -193,7 +194,7 @@ public class MsgUtil {
 	 */
 	public void sendXiongZhangText(String code, Map<String, String> params, String openid, String appName) {
 		params = params == null ? new HashMap<>() : params;
-		send(generateMsg(code, params, openid, appName, null));
+		send(generateMsg(code, params, null, openid, appName, null));
 	}
 
 	/**
@@ -221,7 +222,7 @@ public class MsgUtil {
 		params.put("first", firstContent);
 		params.put("remark", remarkContent);
 		params.put("url", url);
-		send(generateMsg(code, params, openid, appName, null));
+		send(generateMsg(code, params, null, openid, appName, null));
 	}
 
 	/**
@@ -241,7 +242,7 @@ public class MsgUtil {
 	 */
 	public void sendDDTextByGroup(String code, Map<String, String> params, String groupId, String appName) {
 		params = params == null ? new HashMap<>() : params;
-		send(generateMsg(code, params, groupId, appName, null));
+		send(generateMsg(code, params, null, groupId, appName, null));
 	}
 
 	/**
@@ -259,7 +260,7 @@ public class MsgUtil {
 	 */
 	public void sendDDTextByGroup(String code, Map<String, String> params, String appName) {
 		params = params == null ? new HashMap<>() : params;
-		send(generateMsg(code, params, null, appName, null));
+		send(generateMsg(code, params, null, null, appName, null));
 	}
 
 	/**
@@ -279,7 +280,7 @@ public class MsgUtil {
 	 */
 	public void sendDDTextByRobot(String code, Map<String, String> params, String robotToken, String appName) {
 		params = params == null ? new HashMap<>() : params;
-		send(generateMsg(code, params, robotToken, appName, null));
+		send(generateMsg(code, params, null, robotToken, appName, null));
 	}
 
 	/**
@@ -310,7 +311,7 @@ public class MsgUtil {
 			sb.append(",").append(userid);
 		});
 		params.put("userIds", sb.toString().substring(1));
-		send(generateMsg(code, params, miniAppId, appName, null));
+		send(generateMsg(code, params, null, miniAppId, appName, null));
 	}
 
 	/**
@@ -339,7 +340,7 @@ public class MsgUtil {
 		params = params == null ? new HashMap<>() : params;
 		params.put("messageUrl", messageUrl);
 		params.put("picUrl", picUrl);
-		send(generateMsg(code, params, groupId, appName, title));
+		send(generateMsg(code, params, null, groupId, appName, title));
 	}
 
 	/**
@@ -366,7 +367,7 @@ public class MsgUtil {
 		params = params == null ? new HashMap<>() : params;
 		params.put("messageUrl", messageUrl);
 		params.put("picUrl", picUrl);
-		send(generateMsg(code, params, null, appName, title));
+		send(generateMsg(code, params, null, null, appName, title));
 	}
 
 	/**
@@ -395,7 +396,7 @@ public class MsgUtil {
 		params = params == null ? new HashMap<>() : params;
 		params.put("messageUrl", messageUrl);
 		params.put("picUrl", picUrl);
-		send(generateMsg(code, params, robotToken, appName, title));
+		send(generateMsg(code, params, null, robotToken, appName, title));
 	}
 
 	/**
@@ -437,7 +438,7 @@ public class MsgUtil {
 			sb.append(",").append(userid);
 		});
 		params.put("userIds", sb.toString().substring(1));
-		send(generateMsg(code, params, miniAppId, appName, title));
+		send(generateMsg(code, params, null, miniAppId, appName, title));
 	}
 
 	private void send(MsgDTO msgDto) {
@@ -446,13 +447,16 @@ public class MsgUtil {
 		producer.msg(msgDto);
 	}
 
-	private MsgDTO generateMsg(String code, Map<String, String> params, String receiver, String appName, String title) {
+	private MsgDTO generateMsg(String code, Map<String, String> params, Map<String, String> addedParams,
+			String receiver, String appName, String title) {
 		if (appName == null || appName.trim().equals("")) {
 			throw ExceptionBuilder.build(exProp).format("msg_has_no_sender").create();
 		}
+		
 		MsgDTO msgDto = new MsgDTO();
 		msgDto.setCode(code);
 		msgDto.setParams(params);
+		msgDto.setAddedParams(addedParams);
 		msgDto.setReceiver(receiver);
 		msgDto.setSentBy(appName);
 		msgDto.setTitle(title);
