@@ -80,5 +80,6 @@
         <module>inno72-log</module>
         <module>inno72-aop</module>
         <module>inno72-dataauth</module>
+        <module>inno72-alarm</module>
   </modules>
 </project>
