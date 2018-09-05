@@ -1,8 +1,9 @@
 package com.inno72.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class AlarmMachineBean {
+public class AlarmMachineBean implements Serializable {
 
     private String id;
 
