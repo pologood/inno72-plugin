@@ -15,6 +15,7 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSON;
+import com.mongodb.WriteResult;
 
 /**
  * Mongo工具类. 直接注入使用
@@ -432,6 +433,23 @@ public class MongoUtil {
 		options.returnNew(true);
 		SequenceId seqId = template.findAndModify(query, update, options, SequenceId.class);
 		return seqId.getSeqId();
+	}
+
+	public WriteResult updateFirst(Query var1, Update var2, String var3){
+		logger.info("修改Mongo数据条件:{}",JSON.toJSON(var1.getQueryObject()));
+		logger.info("修改Mongo数据字段:{}",JSON.toJSON(var2));
+		logger.info("修改monggo数据所在表:{}",var3);
+		WriteResult result = template.updateFirst(var1,var2,var3);
+		logger.info("修改mongo数据结果：{}",JSON.toJSON(result.isUpdateOfExisting()));
+		return result;
+	}
+
+	public WriteResult remove(Query query, String collectionName) {
+		logger.info("删除Mongo数据条件:{}",JSON.toJSON(query.getQueryObject()));
+		logger.info("删除monggo数据所在表:{}",collectionName);
+		WriteResult result = template.remove(query, (Class)null, collectionName);
+		logger.info("删除mongo数据结果：{}",JSON.toJSON(result.isUpdateOfExisting()));
+		return result;
 	}
 
 }
