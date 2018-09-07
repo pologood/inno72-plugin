@@ -180,15 +180,13 @@ public class DataAutherInterceptor implements Interceptor{
 	        						else curVo = item;
 	        					}
 	        				}else {
-	        					Field field = null;
-	        					try {
-	        						field = curVo.getClass().getDeclaredField(levels[i]);
-	        					} catch (Exception e) {
-	        						logger.warn("No field named [" + levels[i] + "] in class " + curVo.getClass().getName());
-	        					}
 	        					
-	        					if(field == null) break;
-	        					else {
+	        					Field field = this.getSupperDeclaredField(curVo.getClass(), levels[i]);
+	        	
+	        					if(field == null) {
+	        						logger.warn("No field named [" + levels[i] + "] in class " + curVo.getClass().getName());
+	        						break;
+	        					}else {
 	        						if(i == (levels.length - 1)) {
 	        							field.setAccessible(true);
 	        							try {
@@ -266,4 +264,20 @@ public class DataAutherInterceptor implements Interceptor{
     		String simpleName = f.getType().getName();
     		return SIMPLE_TYPE_NAMES.contains(simpleName);
     	}
+        
+        private Field getSupperDeclaredField(Class clazz, String fieldName) {
+        	
+        	Class tempClass = clazz;
+        	while (tempClass != null) {
+        		try {
+					Field field = tempClass.getDeclaredField(fieldName);
+					return field;
+				} catch (NoSuchFieldException e) {
+					tempClass = tempClass.getSuperclass();
+				} catch (SecurityException e) {
+					tempClass = tempClass.getSuperclass();
+				}
+        	}
+        	return null;
+        } 
 }
