@@ -13,6 +13,15 @@ public abstract class AbstractLogAll {
 	private String time = "";
 	private String tag = "";
 	private String detail = "";
+	private String pointType = "";
+
+	public String getPointType() {
+		return pointType;
+	}
+
+	public void setPointType(String pointType) {
+		this.pointType = pointType;
+	}
 
 	public String getTag() {
 		return tag;
