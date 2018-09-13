@@ -2,7 +2,7 @@ package com.inno72.log.vo;
 
 public enum LogType {
 
-	SYS("sys"), PRODUCT("product"), BIZ("biz");
+	SYS("sys"), PRODUCT("product"), BIZ("biz"), POINT("point");
 
 	private String val;
 

@@ -14,7 +14,6 @@ public class LogAllContext {
 	private String userId = "";
 	private String operatorId = "";
 	private String activityId = "";
-	private String pointType = "";
 
 	public LogAllContext(LogType logType) {
 		if (logType == LogType.SYS) {
@@ -52,10 +51,6 @@ public class LogAllContext {
 
 	public LogAllContext tag(String tag) {
 		abstractLogAll.setTag(tag);
-		return this;
-	}
-	public LogAllContext pointType(String pointType) {
-		abstractLogAll.setPointType(pointType);
 		return this;
 	}
 

@@ -1,5 +1,6 @@
 package com.inno72.log.plugin;
 
+import com.alibaba.fastjson.JSON;
 import com.inno72.log.util.FastJsonUtils;
 import com.inno72.log.util.IpPortUtils;
 import com.inno72.log.util.PropertiesUtil;
@@ -53,46 +54,61 @@ public class Inno72JsonPatternLayout extends AbstractStringLayout {
 		String formatTime = format(event.getTimeMillis());
 
 		String sysLogStr = event.getContextData().getValue("logInfo");
+
 		ThreadContext.clearMap();
 
 		if (StringUtils.isNotEmpty(message)) {
 			// 所有select 操作都不做处理
-			if (message.indexOf("SELECT") > -1 || message.indexOf("select") > -1) {
+			if (message.contains("SELECT") || message.contains("select")) {
 				return "";
 			}
-			if ((message.indexOf("executed") > -1 && message.indexOf("LAST_INSERT_ID") == -1
-					&& message.indexOf("SELECT") == -1) || (message.indexOf("<==    Updates") > -1)) {
-				String jsonStr = new JsonSysLoggerInfo(LogType.SYS.val(), platform, appName, instanceName,
-						event.getLevel().name(), formatTime, "", message).toString();
-				return jsonStr + "\n";
+			if ((message.contains("executed") && !message.contains("LAST_INSERT_ID")
+					&& !message.contains("SELECT")) || (message.contains("<==    Updates"))) {
+				return new JsonSysLoggerInfo(LogType.SYS.val(), platform, appName, instanceName,
+						event.getLevel().name(), formatTime, "", message).toString() + "\n";
 			}
 		}
 
-		AbstractLog abstractLog = null;
+		AbstractLog  abstractLog = null;
 		if (StringUtils.isNotEmpty(sysLogStr)) {
 			String logType = FastJsonUtils.getString(sysLogStr, "logType");
-
 			if (StringUtils.isNotEmpty(logType)) {
 				if (logType.equals(LogType.SYS.val())) {
 					abstractLog = FastJsonUtils.toObject(sysLogStr, SysLog.class);
+				} else if (logType.equals(LogType.POINT.val())){
+					abstractLog = FastJsonUtils.toObject(sysLogStr, PointLog.class);
 				} else {
 					abstractLog = FastJsonUtils.toObject(sysLogStr, BizLog.class);
 				}
 			}
 		}
 
+
 		String jsonStr = "";
 		if (abstractLog != null) {
+
 			if (abstractLog instanceof SysLog) {
+
 				SysLog sysLog = (SysLog) abstractLog;
 				jsonStr = new JsonSysLoggerInfo(sysLog.getLogType(), platform, appName, instanceName,
 						event.getLevel().name(), formatTime, sysLog.getTag(), message).toString();
+
 			} else if (abstractLog instanceof BizLog) {
+
 				BizLog bizLog = (BizLog) abstractLog;
 				jsonStr = new JsonBizLoggerInfo(bizLog.getLogType(), platform, appName, instanceName,
 						event.getLevel().name(), formatTime, bizLog.getTag(), abstractLog.getDetail(),
 						bizLog.getUserId(), bizLog.getOperatorId(), bizLog.getActivityId()).toString();
+
+			} else if (abstractLog instanceof PointLog) {
+
+				PointLog pointLog = (PointLog) abstractLog;
+				jsonStr = jsonStr = new JsonPointLoggerInfo(
+						pointLog.getLogType(), pointLog.getTag(), pointLog.getDetail(),
+						pointLog.getMachineCode(), pointLog.getType(),
+						pointLog.getPointTime()).toString();
 			}
+
 		} else {
 			// 没有 LogContext 设置的当做系统级日志处理
 			jsonStr = new JsonSysLoggerInfo(LogType.SYS.val(), platform, appName, instanceName,
