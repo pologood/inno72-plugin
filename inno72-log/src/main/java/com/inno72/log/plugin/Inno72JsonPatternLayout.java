@@ -83,7 +83,6 @@ public class Inno72JsonPatternLayout extends AbstractStringLayout {
 			}
 		}
 
-
 		String jsonStr = "";
 		if (abstractLog != null) {
 
