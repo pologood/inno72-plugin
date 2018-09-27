@@ -139,7 +139,8 @@ public class Inno72JsonPatternLayout extends AbstractStringLayout {
 		date.setTime(time);
 		String returnValue = "";
 		if (date != null) {
-			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			// 修改时间格式 为挺高es查询效率
+			SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
 			returnValue = df.format(date);
 		}
 		return returnValue;
