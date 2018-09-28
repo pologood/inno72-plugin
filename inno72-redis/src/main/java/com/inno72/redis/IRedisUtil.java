@@ -186,6 +186,7 @@ public class IRedisUtil {
 	public void deleteByPrex(String prex) {
 		Set<String> keys = this.template.keys(prex);
 		if (!CollectionUtils.isEmpty(keys)) {
+			logger.debug("keys is {}", keys);
 			this.template.delete(keys);
 		}
 	}
