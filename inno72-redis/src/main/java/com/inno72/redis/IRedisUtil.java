@@ -21,6 +21,7 @@ import org.springframework.data.redis.core.BoundZSetOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
 @Component
 public class IRedisUtil {
@@ -173,14 +174,22 @@ public class IRedisUtil {
 	 * @author Houkm 2017年5月10日
 	 */
 	public Long del(String key) {
-		logger.debug("删除{}", key);
-		if (!template.hasKey(key)) {
-			logger.debug("{}不存在", key);
-			return 0l;
-		}
-		template.delete(key);
-		return 1l;
+		this.template.delete(key);
+		return 0l;
 	}
+
+	/**
+	 * 删除匹配的key
+	 *
+	 * @author gxg 2018年9月28日
+	 */
+	public void deleteByPrex(String prex) {
+		Set<String> keys = this.template.keys(prex);
+		if (!CollectionUtils.isEmpty(keys)) {
+			this.template.delete(keys);
+		}
+	}
+
 
 	/************************* 存对象 ***********************************/
 	/**
