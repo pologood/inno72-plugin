@@ -975,7 +975,7 @@ public class IRedisUtil {
 	 * @author Houkm 2017年5月11日
 	 */
 	public boolean exists(String key) {
-		boolean exist = str(key).get() == null;
+		boolean exist = str(key).get() != null ? true : false;
 		logger.debug("{} exists {}", key, exist);
 		return exist;
 	}
