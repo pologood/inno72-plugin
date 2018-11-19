@@ -12,6 +12,8 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
 import com.inno72.model.AlarmDetailBean;
+import com.inno72.model.AlarmDropGoodsBean;
+import com.inno72.model.AlarmLackGoodsBean;
 import com.inno72.model.AlarmMachineBean;
 import com.inno72.redis.IRedisUtil;
 
@@ -53,4 +55,23 @@ public class AlarmUtil {
 		redisUtil.del(key);
 		redisUtil.del(timeKey);
 	}
+
+	public void saveDropGoodsBean(AlarmDropGoodsBean bean){
+		Date now = new Date();
+		bean.setCreateTime(now);
+		bean.setHandle(0);
+		String beanId = StringUtil.getUUID();
+		bean.setId(beanId);
+		mongoTpl.save(bean,"AlarmDropGoodsBean");
+	}
+
+	public void saveLackGoodsBean(AlarmLackGoodsBean bean){
+		Date now = new Date();
+		bean.setCreateTime(now);
+		bean.setHandle(0);
+		String beanId = StringUtil.getUUID();
+		bean.setId(beanId);
+		mongoTpl.save(bean,"AlarmLackGoodsBean");
+	}
+
 }
