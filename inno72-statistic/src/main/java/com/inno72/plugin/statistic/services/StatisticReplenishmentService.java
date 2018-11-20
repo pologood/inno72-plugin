@@ -67,10 +67,10 @@ public class StatisticReplenishmentService implements StatisticService {
 			stm.setString(8, userId);
 			stm.setString(9, areaId);
 			if (time == null)
-				stm.setDate(10, null);
+				stm.setTimestamp(10, null);
 			else
-				stm.setDate(10, new java.sql.Date(time.getTime()));
-			stm.setDate(11, new java.sql.Date(System.currentTimeMillis()));
+				stm.setTimestamp(10, new java.sql.Timestamp(time.getTime()));
+			stm.setTimestamp(11, new java.sql.Timestamp(System.currentTimeMillis()));
 			stm.execute();
 		} catch (SQLException e) {
 			logger.error(e.getMessage(), e);
