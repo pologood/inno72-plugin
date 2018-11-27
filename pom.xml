@@ -83,5 +83,6 @@
         <module>inno72-alarm</module>
         <module>inno72-statistic</module>
         <module>inno72-sessionshare</module>
+		<module>inno72-signgenerator</module>
   </modules>
 </project>
