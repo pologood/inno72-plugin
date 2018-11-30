@@ -45,7 +45,7 @@ public class ShareSessionContext implements SessionManager {
 
     @Override
     public void init() {
-        expireSessionProcess();
+        // expireSessionProcess(); session 不失效
         syncAccessSessionProcess();
     }
 

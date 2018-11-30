@@ -193,11 +193,12 @@ public class RedisSessionDao extends AbstractSessionDao{
                     systemSource = SessionContextInitializer.namespace;
                 }
                 String attrKeyPrefix = String.format(ATTR_KEY_PREFIX,systemSource);
-                if(!session.isValid(true)){
-                    // redisUtil.hdelByRename(attrKeyPrefix + id, attrKeyPrefix + EXPIRE_KEY_PREFIX + id, new String[]{name});
-                }else{
-                    // redisUtil.hdel(attrKeyPrefix + id, new String[]{name});
-                }
+//                if(!session.isValid(true)){
+//                    // redisUtil.hdelByRename(attrKeyPrefix + id, attrKeyPrefix + EXPIRE_KEY_PREFIX + id, new String[]{name});
+//                }else{
+//                    // redisUtil.hdel(attrKeyPrefix + id, new String[]{name});
+//                }
+				redisUtil.hdel(attrKeyPrefix + id, name);
                 notifyAttributeRemoved(session, name, attribute);
             }
         } catch (Exception e) {
