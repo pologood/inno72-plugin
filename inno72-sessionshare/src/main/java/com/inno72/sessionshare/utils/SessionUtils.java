@@ -42,9 +42,12 @@ public class SessionUtils {
         return SessionContextInitializer.getSessionManager().findRemoteSession(namespace,sessionId);
     }
 
-	public static void main(String[] args) {
-		HttpSession session = SessionUtils.getSession("gxg123", true);
-		session.setAttribute("gxg", "1");
-
+	public static void removeSession(String sessionId){
+		if (StringUtils.isBlank(sessionId)) return ;
+		ShareHttpSession session = (ShareHttpSession)getSession(sessionId,false);
+		if(session != null){
+			SessionContextInitializer.getSessionManager().removeSession(session);
+		}
 	}
+
 }
