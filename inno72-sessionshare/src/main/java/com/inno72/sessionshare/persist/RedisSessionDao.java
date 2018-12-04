@@ -90,13 +90,6 @@ public class RedisSessionDao extends AbstractSessionDao{
                 return 0;
             }*/
             String sessionKeyPrefix = String.format(SESSION_KEY_PREFIX, systemSource);
-            String attrKeyPrefix = String.format(ATTR_KEY_PREFIX, systemSource);
-            String attrKey = attrKeyPrefix + id;
-            // 注意点：过期机制
-            if(redisUtil.exists(attrKey)){
-                redisUtil.expire(attrKey, 180);
-                // redisUtil.rename(attrKey, attrKeyPrefix + EXPIRE_KEY_PREFIX + id);
-            }
             redisUtil.del(sessionKeyPrefix + id);
             String sessionGroupKey = String.format(SESSION_GROUP_KEY,systemSource);
             redisUtil.zrem(sessionGroupKey, id);
