@@ -89,7 +89,11 @@ public class RedisSessionDao extends AbstractSessionDao{
                 logger.info("["+systemSource+"]session 销毁失败 ，ask return ：false.");
                 return 0;
             }*/
+            String attrKeyPrefix = String.format(ATTR_KEY_PREFIX, systemSource);
+            String attrKey = attrKeyPrefix + id;
+            redisUtil.del(attrKey);
             String sessionKeyPrefix = String.format(SESSION_KEY_PREFIX, systemSource);
+
             redisUtil.del(sessionKeyPrefix + id);
             String sessionGroupKey = String.format(SESSION_GROUP_KEY,systemSource);
             redisUtil.zrem(sessionGroupKey, id);
