@@ -65,8 +65,8 @@ public abstract class SessionContextInitializer implements ApplicationContextAwa
             throw new IllegalArgumentException("servletContext is requird!");
         }
         // 配置session过滤器
-        FilterRegistration.Dynamic filterRegistration = servletContext.addFilter(ShareSessionFilter.class.getName(), ShareSessionFilter.class);
-        filterRegistration.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), false, new String[]{"/*"});
+        //FilterRegistration.Dynamic filterRegistration = servletContext.addFilter(ShareSessionFilter.class.getName(), ShareSessionFilter.class);
+        //filterRegistration.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), false, new String[]{"/*"});
 
         // cookie 配置
         SessionCookieConfig sessionCookieConfig = servletContext.getSessionCookieConfig();
