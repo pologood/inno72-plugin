@@ -5,19 +5,11 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Map;
 
+import okhttp3.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import okhttp3.Callback;
-import okhttp3.ConnectionPool;
-import okhttp3.FormBody;
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
 import okhttp3.Request.Builder;
-import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
 
 /**
  * Http请求. <br>
@@ -324,6 +316,27 @@ public class HttpClient {
 
 		return getResponse(responseBody, Response_Type.String).toString();
 
+	}
+
+	/**
+	 * form提交
+	 *
+	 * @param url
+	 * @param requestForm
+	 * @return
+	 */
+	public static Response form(String url, Map<String, String> requestForm) throws IOException {
+		okhttp3.FormBody.Builder builder = new FormBody.Builder();
+		requestForm.forEach((k, v) -> {
+			builder.add(k, v);
+		});
+		FormBody formBody = builder.build();
+
+		Builder reqBuilder = new Request.Builder().url(url).post(formBody);
+
+		Request request = reqBuilder.build();
+
+		return client.newCall(request).execute();
 	}
 
 	/**
