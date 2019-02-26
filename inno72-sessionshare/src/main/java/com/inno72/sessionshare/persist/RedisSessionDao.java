@@ -177,30 +177,30 @@ public class RedisSessionDao extends AbstractSessionDao{
     }
 
     public void removeAttribute(ShareHttpSession session, String name) {
-//        try {
-//            String id ;
-//            if (session == null || (id = session.getId()) == null || StringUtils.isBlank(name)) {
-//                return;
-//            }
-//            Object attribute = getAttribute(session, name, session.getNamespace());
-//
-//            if (attribute != null) {
-//                String systemSource = session.getNamespace();
-//                if(StringUtils.isBlank(systemSource)){
-//                    systemSource = SessionContextInitializer.namespace;
+        try {
+            String id ;
+            if (session == null || (id = session.getId()) == null || StringUtils.isBlank(name)) {
+                return;
+            }
+            Object attribute = getAttribute(session, name, session.getNamespace());
+
+            if (attribute != null) {
+                String systemSource = session.getNamespace();
+                if(StringUtils.isBlank(systemSource)){
+                    systemSource = SessionContextInitializer.namespace;
+                }
+                String attrKeyPrefix = String.format(ATTR_KEY_PREFIX,systemSource);
+//                if(!session.isValid(true)){
+//                    // redisUtil.hdelByRename(attrKeyPrefix + id, attrKeyPrefix + EXPIRE_KEY_PREFIX + id, new String[]{name});
+//                }else{
+//                    // redisUtil.hdel(attrKeyPrefix + id, new String[]{name});
 //                }
-//                String attrKeyPrefix = String.format(ATTR_KEY_PREFIX,systemSource);
-////                if(!session.isValid(true)){
-////                    // redisUtil.hdelByRename(attrKeyPrefix + id, attrKeyPrefix + EXPIRE_KEY_PREFIX + id, new String[]{name});
-////                }else{
-////                    // redisUtil.hdel(attrKeyPrefix + id, new String[]{name});
-////                }
-//				redisUtil.hdel(attrKeyPrefix + id, name);
-//                notifyAttributeRemoved(session, name, attribute);
-//            }
-//        } catch (Exception e) {
-//            logger.error("remove redis session Attribute", e);
-//        }
+				redisUtil.hdel(attrKeyPrefix + id, name);
+                notifyAttributeRemoved(session, name, attribute);
+            }
+        } catch (Exception e) {
+            logger.error("remove redis session Attribute", e);
+        }
     }
 
     public Collection<ShareHttpSession> getSessions() {

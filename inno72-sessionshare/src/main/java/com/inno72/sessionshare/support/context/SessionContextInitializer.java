@@ -106,7 +106,7 @@ public abstract class SessionContextInitializer implements ApplicationContextAwa
         sessionDao.setAttributeListener(getSessionAttributeListeners());
 
         manager = new ShareSessionContext(sessionCookieConfig);
-        //manager.setSessionTimeout(sessionConfiguration.getTimeout());
+        manager.setSessionTimeout(sessionConfiguration.getTimeout());
         manager.setNative(sessionDao instanceof NativeSessionDao);
         manager.setSessionDao(sessionDao);
 
